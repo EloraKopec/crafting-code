@@ -13,7 +13,7 @@ public class SimulateurShould
             .Should()
             .Be(1515.25m);
 
-        Situation situation2 = new Situation("Célibataire", 1978123.98m, 0, 0);
+        Situation situation2 = new("Célibataire", 1978123.98m, 0, 0);
         Simulateur.CalculerImpotsAnnuel(situation2)
             .Should()
             .Be(11358302.68m);

@@ -14,22 +14,22 @@ public static class Simulateur
 
     public static decimal CalculerImpotsAnnuel(Situation situation)
     {
-        decimal revenuAnnuel = revenueAnnuel(situation);
+        decimal revenuAnnuel = RevenueAnnuel(situation);
         
 
         var baseQuotient = situation.SituationFamiliale == SituationFamiliale.MariéPacsé ? 2 : 1;
-        decimal quotientEnfants = quotientEnfant(situation.NombreEnfant);
+        decimal quotientEnfants = QuotientEnfant(situation.NombreEnfant);
 
         var partsFiscales = baseQuotient + quotientEnfants;
         var revenuImposableParPart = revenuAnnuel / partsFiscales;
 
-        decimal impot = Simulateur.impotParPart(revenuImposableParPart);
+        decimal impot = ImpotParPart(revenuImposableParPart);
 
 
         return Math.Round(impot * partsFiscales, 2);
     }
 
-    private static decimal revenueAnnuel(Situation situation)
+    private static decimal RevenueAnnuel(Situation situation)
     {
         decimal revenuAnnuel;
         if (situation.SituationFamiliale == SituationFamiliale.MariéPacsé)
@@ -43,29 +43,19 @@ public static class Simulateur
         return revenuAnnuel;
     }
 
-    private static decimal quotientEnfant(int nombreEnfants)
+    private static decimal QuotientEnfant(int nombreEnfants)
     {
-        decimal quotientEnfants = (decimal) Math.PI;
-
-        switch (nombreEnfants)
+        var quotientEnfants = nombreEnfants switch
         {
-            case 0:
-                quotientEnfants = 0;
-                break;
-            case 1:
-                quotientEnfants = 0.5m;
-                break;
-            case 2:
-                quotientEnfants = 1.0m;
-                break;
-            default:
-                quotientEnfants = 1.0m + (nombreEnfants - 2) * 0.5m;
-                break;
-        }
+            0 => 0,
+            1 => 0.5m,
+            2 => 1.0m,
+            _ => 1.0m + (nombreEnfants - 2) * 0.5m,
+        };
         return quotientEnfants;
     }
 
-    private static decimal impotParPart(decimal revenuImposableParPart)
+    private static decimal ImpotParPart(decimal revenuImposableParPart)
     {
         return Imposition
             .Select((tranche, index) => new
