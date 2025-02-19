@@ -71,6 +71,12 @@ public class SimulateurShould
             Action action2 = () => 
                 Simulateur.CalculerImpotsAnnuel("Marié/Pacsé", 3000, -3000, 3);
             action2.Should()
+                .ThrowExactly<InvalidDataException>()
+                .WithMessage("Les salaires doivent être positifs.");
+            
+            Action action3 = () => 
+                Simulateur.CalculerImpotsAnnuel("Marié/Pacsé", 0, 3000, 3);
+            action3.Should()
                 .ThrowExactly<ArgumentException>()
                 .WithMessage("Les salaires doivent être positifs.");
     }
