@@ -2,8 +2,15 @@ namespace Tax.Simulator;
 
 public static class Simulateur
 {
-    private static readonly decimal[] TranchesImposition = { 10225m, 26070m, 74545m, 160336m, 500000m }; // Plafonds des tranches
-    private static readonly decimal[] TauxImposition = {0.0m, 0.11m, 0.30m, 0.41m, 0.45m, 0.48m}; // Taux correspondants
+    private static readonly List<TrancheFiscale> Imposition = new List<TrancheFiscale>
+    {
+        new TrancheFiscale(10225m, 0.0m),
+        new TrancheFiscale(26070m, 0.11m),
+        new TrancheFiscale(74545m, 0.30m),
+        new TrancheFiscale(160336m, 0.41m),
+        new TrancheFiscale(500000m, 0.45m),
+        new TrancheFiscale(decimal.MaxValue, 0.48m)
+    };
 
     public static decimal CalculerImpotsAnnuel(Situation situation)
     {
@@ -60,26 +67,15 @@ public static class Simulateur
 
     private static decimal impotParPart(decimal revenuImposableParPart)
     {
-        decimal impot = 0;
-        var tranches = TranchesImposition
-            .Select((tranche, i) => new
+        return Imposition
+            .Select((tranche, index) => new
             {
-                Plafond = tranche,
-                Base = i > 0 ? TranchesImposition[i - 1] : 0,
-                Taux = TauxImposition[i]
+                tranche.Plafond,
+                Base = index > 0 ? Imposition[index - 1].Plafond : 0,
+                tranche.Taux
             })
-            .Where(x => revenuImposableParPart > x.Base);
-
-        impot = tranches
-            .Select(x => (Math.Min(revenuImposableParPart, x.Plafond) - x.Base) * x.Taux)
-            .Sum();
-
-        if (revenuImposableParPart > TranchesImposition[^1])
-        {
-            impot += (revenuImposableParPart - TranchesImposition[^1]) * TauxImposition[^1];
-        }
-
-        return impot;
-        
+            .Where(x => revenuImposableParPart > x.Base)
+            .Sum(x => (Math.Min(revenuImposableParPart, x.Plafond) - x.Base) * x.Taux);
     }
+
 }
