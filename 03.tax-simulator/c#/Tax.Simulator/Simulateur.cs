@@ -111,35 +111,11 @@ public static class Simulateur
             throw new ArgumentException("Le nombre d'enfants ne peut pas être négatif.");
         }
 
-        decimal revenuAnnuel;
-        if (situationFamiliale == "Marié/Pacsé")
-        {
-            revenuAnnuel = (salaireMensuel + salaireMensuelConjoint) * 12;
-        }
-        else
-        {
-            revenuAnnuel = salaireMensuel * 12;
-        }
+        decimal revenuAnnuel = revenueAnnuel(situationFamiliale, salaireMensuel, salaireMensuelConjoint);
+        
 
         var baseQuotient = situationFamiliale == "Marié/Pacsé" ? 2 : 1;
-        decimal quotientEnfants = (decimal) Math.PI;
-
-        if (nombreEnfants == 0)
-        {
-            quotientEnfants = 0;
-        }
-        else if (nombreEnfants == 1)
-        {
-            quotientEnfants = 0.5m;
-        }
-        else if (nombreEnfants == 2)
-        {
-            quotientEnfants = 1.0m;
-        }
-        else
-        {
-            quotientEnfants = 1.0m + (nombreEnfants - 2) * 0.5m;
-        }
+        decimal quotientEnfants = quotientEnfant(nombreEnfants);
 
         var partsFiscales = baseQuotient + quotientEnfants;
         var revenuImposableParPart = revenuAnnuel / partsFiscales;
@@ -208,18 +184,19 @@ public static class Simulateur
     private static decimal impotParPart(decimal revenuImposableParPart)
     {
         decimal impot = 0;
-        for (var i = 0; i < TranchesImposition.Length; i++)
-        {
-            if (revenuImposableParPart <= TranchesImposition[i])
+        var tranches = TranchesImposition
+            .Select((tranche, i) => new
             {
-                impot += (revenuImposableParPart - (i > 0 ? TranchesImposition[i - 1] : 0)) * TauxImposition[i];
-                break;
-            }
-            else
-            {
-                impot += (TranchesImposition[i] - (i > 0 ? TranchesImposition[i - 1] : 0)) * TauxImposition[i];
-            }
-        }
+                Plafond = tranche,
+                Base = i > 0 ? TranchesImposition[i - 1] : 0,
+                Taux = TauxImposition[i]
+            })
+            .Where(x => revenuImposableParPart > x.Base);
+
+        impot = tranches
+            .Select(x => (Math.Min(revenuImposableParPart, x.Plafond) - x.Base) * x.Taux)
+            .Sum();
+
 
         if (revenuImposableParPart > TranchesImposition[^1])
         {
@@ -228,5 +205,7 @@ public static class Simulateur
 
         var impotParPart = impot;
         return impotParPart;
+        
+        impot = TranchesImposition.Sum()
     }
 }
