@@ -2,15 +2,15 @@ namespace Tax.Simulator;
 
 public static class Simulateur
 {
-    private static readonly List<TrancheFiscale> Imposition = new List<TrancheFiscale>
-    {
-        new TrancheFiscale(10225m, 0.0m),
-        new TrancheFiscale(26070m, 0.11m),
-        new TrancheFiscale(74545m, 0.30m),
-        new TrancheFiscale(160336m, 0.41m),
-        new TrancheFiscale(500000m, 0.45m),
-        new TrancheFiscale(decimal.MaxValue, 0.48m)
-    };
+    private static readonly List<TrancheFiscale> Imposition =
+    [
+        new(10225m, 0.0m),
+        new(26070m, 0.11m),
+        new(74545m, 0.30m),
+        new(160336m, 0.41m),
+        new(500000m, 0.45m),
+        new(decimal.MaxValue, 0.48m)
+    ];
 
     public static decimal CalculerImpotsAnnuel(Situation situation)
     {

@@ -8,14 +8,17 @@ namespace Tax.Simulator
 {
     public class TrancheFiscale
     {
-        public decimal Plafond { get; set; }
-        public decimal Taux { get; set; }
+        private readonly decimal _plafond;
+        private readonly decimal _taux;
 
         public TrancheFiscale(decimal plafond, decimal taux)
         {
-            Plafond = plafond;
-            Taux = taux;
+            _plafond = plafond;
+            _taux = taux;
         }
+
+        public decimal Plafond => _plafond;
+        public decimal Taux => _taux;
     }
 
 }
