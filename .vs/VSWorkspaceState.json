@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\03.tax-simulator",
+    "\\03.tax-simulator\\c#",
+    "\\03.tax-simulator\\c#\\Tax.Simulator",
+    "\\03.tax-simulator\\c#\\Tax.Simulator.Api",
+    "\\03.tax-simulator\\c#\\Tax.Simulator.Tests"
+  ],
+  "SelectedNode": "\\03.tax-simulator\\c#\\Tax.Simulator.Api\\Program.cs",
+  "PreviewInSolutionExplorer": false
+}

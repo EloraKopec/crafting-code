@@ -1,4 +1,5 @@
 using FluentAssertions;
+using System.Security.Cryptography;
 using Xunit;
 
 namespace Tax.Simulator.Tests;
@@ -15,14 +16,14 @@ public class SimulateurShould
         Situation situation2 = new Situation("Célibataire", 1978123.98m, 0, 0);
         Simulateur.CalculerImpotsAnnuel(situation2)
             .Should()
-            .Be(10661178.05m);
+            .Be(11358302.68m);
     }
 
 
     [Fact]
     public void ImpotCelibataireThrow()
     {
-        
+
         Action action = () => new Situation("Célibataire", -2000, 0, 0);
 
         action.Should()
@@ -66,7 +67,7 @@ public class SimulateurShould
     [Fact]
     public void ImpotMarieThrow()
     {
-        
+
         Action action = () => new Situation("Marié/Pacsé", -2500, 2000, 0);
 
         action.Should()
@@ -76,14 +77,14 @@ public class SimulateurShould
     [Fact(DisplayName = "Situation familial invalide")]
     public void ImpotSituationFamilialeInvalide()
     {
-        
+
         Action action = () => new Situation("Divorcé", 3000, 3000, 3);
 
         action.Should()
             .ThrowExactly<ArgumentException>()
             .WithMessage("Situation familiale invalide.");
-        
-        
+
+
     }
 
     [Fact(DisplayName = "Les salaires doivent être positifs")]
@@ -94,13 +95,13 @@ public class SimulateurShould
         action.Should()
             .ThrowExactly<ArgumentException>()
             .WithMessage("Les salaires doivent être positifs.");
-        
+
         Action action2 = () => new Situation("Marié/Pacsé", 3000, -3000, 3);
 
         action2.Should()
             .ThrowExactly<ArgumentException>()
             .WithMessage("Les salaires doivent être positifs.");
-        
+
         Action action3 = () => new Situation("Marié/Pacsé", 0, 3000, 3);
 
         action3.Should()
@@ -111,10 +112,29 @@ public class SimulateurShould
     [Fact(DisplayName = "Salaire 2 millions")]
     public void ImpotSalaire2Millions()
     {
-        Situation situation = new ("Marié/Pacsé", 2000000, 10000, 3);
+        Situation situation = new("Marié/Pacsé", 2000000, 10000, 3);
         Simulateur.CalculerImpotsAnnuel(situation)
             .Should()
-            .Be(10781579.96m);
+            .Be(11452679.96m);
     }
+
+    [Fact]
+    public void ImpotSuperieur500k()
+    {
+        Situation situation = new("Célibataire", 45000, 0, 0);
+        Simulateur.CalculerImpotsAnnuel(situation)
+            .Should()
+            .Be(223508.56m);
+
+    }
+    [Fact]
+    public void ImpotSuperieur500kMarie()
+    {
+        Situation situation = new("Marié/Pacsé", 25000, 30000, 2);
+        Simulateur.CalculerImpotsAnnuel(situation)
+            .Should()
+            .Be(234925.68m);
+    }
+
 }
 
