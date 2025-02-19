@@ -49,5 +49,15 @@ public class SimulateurShould
             .WithMessage("Le nombre d'enfants ne peut pas être négatif.");
     }
     
+    [Fact (DisplayName = "Situation familial invalide")]
+    public void ImpotSituationFamilialeInvalide()
+    {
+        Action action = () => 
+        Simulateur.CalculerImpotsAnnuel("Divorcé", 3000, 3000, 3);
+            action.Should()
+            .ThrowExactly<ArgumentException>()
+            .WithMessage("Situation familiale invalide.");
+    } 
+    
     
 }
