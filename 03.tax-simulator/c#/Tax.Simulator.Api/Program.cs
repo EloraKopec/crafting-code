@@ -18,10 +18,10 @@ app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 app.MapGet("/api/tax/calculate",
         (string situationFamiliale, decimal salaireMensuel, decimal salaireMensuelConjoint, int nombreEnfants) =>
-        {
-            Situation situation = new(situationFamiliale, salaireMensuel, salaireMensuelConjoint, nombreEnfants);
+        {          
             try
             {
+                Situation situation = new(situationFamiliale, salaireMensuel, salaireMensuelConjoint, nombreEnfants);
                 return Results.Ok(
                     Simulateur.CalculerImpotsAnnuel(
                         situation)
