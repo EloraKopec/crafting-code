@@ -21,7 +21,7 @@ public class SimulateurShould
     public void ImpotCelibataireThrow()
     {
         Action act = () =>
-          Simulateur.CalculerImpotsAnnuel("C�libataire", -2000, 0, 0);
+          Simulateur.CalculerImpotsAnnuel("Célibataire", -2000, 0, 0);
         act.Should().ThrowExactly<ArgumentException>();
 
     }
@@ -32,6 +32,10 @@ public class SimulateurShould
         Simulateur.CalculerImpotsAnnuel("Marié/Pacsé", 3000, 3000, 3)
             .Should()
             .Be(3983.37m);
+        
+        Simulateur.CalculerImpotsAnnuel("Marié/Pacsé", 3000, 3000, 3)
+            .Should()
+            .NotBe(3982.37m);
         
     }
     
@@ -44,4 +48,6 @@ public class SimulateurShould
             .ThrowExactly<ArgumentException>()
             .WithMessage("Le nombre d'enfants ne peut pas être négatif.");
     }
+    
+    
 }
