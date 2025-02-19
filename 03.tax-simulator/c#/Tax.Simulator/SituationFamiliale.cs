@@ -11,4 +11,17 @@ namespace Tax.Simulator
         MariéPacsé,
         Célibataire
     }
+
+    public static class SituationFamilialeExtensions
+    {
+        public static SituationFamiliale ToSituationFamiliale(this string situationFamiliale)
+        {
+            return (situationFamiliale?.Trim()?.ToLower()) switch
+            {
+                "marié/pacsé" => SituationFamiliale.MariéPacsé,
+                "célibataire" => SituationFamiliale.Célibataire,
+                _ => throw new ArgumentException("Situation familiale invalide."),
+            };
+        }
+    }
 }
