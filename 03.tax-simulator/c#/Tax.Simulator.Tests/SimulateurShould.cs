@@ -5,7 +5,7 @@ namespace Tax.Simulator.Tests;
 public class SimulateurShould
 {
     [Fact]
-    public void ImpotCelibataire()
+    public void ImpotCelibataireShould()
     {
         Simulateur.CalculerImpotsAnnuel("Célibataire", 2000, 0, 0)
             .Should()
