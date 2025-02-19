@@ -5,33 +5,13 @@ public static class Simulateur
     private static readonly decimal[] TranchesImposition = {10225m, 26070m, 74545m, 160336m}; // Plafonds des tranches
     private static readonly decimal[] TauxImposition = {0.0m, 0.11m, 0.30m, 0.41m, 0.45m}; // Taux correspondants
 
-    public static decimal CalculerImpotsAnnuel(string situationFamiliale, decimal salaireMensuel, decimal salaireMensuelConjoint, int nombreEnfants)
+    public static decimal CalculerImpotsAnnuel(Situation situation)
     {
-        if (situationFamiliale != "Célibataire" && situationFamiliale != "Marié/Pacsé")
-        {
-            throw new ArgumentException("Situation familiale invalide.");
-        }
-
-        if (salaireMensuel <= 0)
-        {
-            throw new ArgumentException("Les salaires doivent être positifs.");
-        }
-
-        if (situationFamiliale == "Marié/Pacsé" && salaireMensuelConjoint < 0)
-        {
-            throw new InvalidDataException("Les salaires doivent être positifs.");
-        }
-
-        if (nombreEnfants < 0)
-        {
-            throw new ArgumentException("Le nombre d'enfants ne peut pas être négatif.");
-        }
-
-        decimal revenuAnnuel = revenueAnnuel(situationFamiliale, salaireMensuel, salaireMensuelConjoint);
+        decimal revenuAnnuel = revenueAnnuel(situation);
         
 
-        var baseQuotient = situationFamiliale == "Marié/Pacsé" ? 2 : 1;
-        decimal quotientEnfants = quotientEnfant(nombreEnfants);
+        var baseQuotient = situation.SituationFamiliale == SituationFamiliale.MariéPacsé ? 2 : 1;
+        decimal quotientEnfants = quotientEnfant(situation.NombreEnfant);
 
         var partsFiscales = baseQuotient + quotientEnfants;
         var revenuImposableParPart = revenuAnnuel / partsFiscales;
@@ -42,16 +22,16 @@ public static class Simulateur
         return Math.Round(impot * partsFiscales, 2);
     }
 
-    private static decimal revenueAnnuel(string situationFamiliale, decimal salaireMensuel, decimal salaireMensuelConjoint)
+    private static decimal revenueAnnuel(Situation situation)
     {
         decimal revenuAnnuel;
-        if (situationFamiliale == "Marié/Pacsé")
+        if (situation.SituationFamiliale == SituationFamiliale.MariéPacsé)
         {
-            revenuAnnuel = (salaireMensuel + salaireMensuelConjoint) * 12;
+            revenuAnnuel = (situation.SalaireMensuel + situation.SalaireMensuelConjoint) * 12;
         }
         else
         {
-            revenuAnnuel = salaireMensuel * 12;
+            revenuAnnuel = situation.SalaireMensuel * 12;
         }
         return revenuAnnuel;
     }
