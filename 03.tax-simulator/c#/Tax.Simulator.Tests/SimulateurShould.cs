@@ -69,5 +69,11 @@ public class SimulateurShould
             .WithMessage("Les salaires doivent être positifs.");
     }
     
-    
+    [Fact (DisplayName = "Salaire 2 millions")]
+    public void ImpotSalaire2Millions()
+    {
+        Simulateur.CalculerImpotsAnnuel("Marié/Pacsé", 2000000, 10000, 3)
+            .Should()
+            .Be(10781579.96m);
+    }
 }
