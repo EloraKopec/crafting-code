@@ -40,21 +40,20 @@ public static class Simulateur
     {
         decimal quotientEnfants = (decimal) Math.PI;
 
-        if (nombreEnfants == 0)
+        switch (nombreEnfants)
         {
-            quotientEnfants = 0;
-        }
-        else if (nombreEnfants == 1)
-        {
-            quotientEnfants = 0.5m;
-        }
-        else if (nombreEnfants == 2)
-        {
-            quotientEnfants = 1.0m;
-        }
-        else
-        {
-            quotientEnfants = 1.0m + (nombreEnfants - 2) * 0.5m;
+            case 0:
+                quotientEnfants = 0;
+                break;
+            case 1:
+                quotientEnfants = 0.5m;
+                break;
+            case 2:
+                quotientEnfants = 1.0m;
+                break;
+            default:
+                quotientEnfants = 1.0m + (nombreEnfants - 2) * 0.5m;
+                break;
         }
         return quotientEnfants;
     }
@@ -75,14 +74,12 @@ public static class Simulateur
             .Select(x => (Math.Min(revenuImposableParPart, x.Plafond) - x.Base) * x.Taux)
             .Sum();
 
-
         if (revenuImposableParPart > TranchesImposition[^1])
         {
             impot += (revenuImposableParPart - TranchesImposition[^1]) * TauxImposition[^1];
         }
 
-        var impotParPart = impot;
-        return impotParPart;
+        return impot;
         
     }
 }
