@@ -5,21 +5,35 @@ public static class Simulateur
     private static readonly decimal[] TranchesImposition = {10225m, 26070m, 74545m, 160336m}; // Plafonds des tranches
     private static readonly decimal[] TauxImposition = {0.0m, 0.11m, 0.30m, 0.41m, 0.45m}; // Taux correspondants
 
-    public static decimal CalculerImpotsAnnuel(Situation situation)
+    private static decimal CalculImpotInferieurA500K(Situation situation, decimal revenueAnnuelInferieur500k)
     {
-        decimal revenuAnnuel = revenueAnnuel(situation);
-        
-
         var baseQuotient = situation.SituationFamiliale == SituationFamiliale.MariéPacsé ? 2 : 1;
         decimal quotientEnfants = quotientEnfant(situation.NombreEnfant);
 
         var partsFiscales = baseQuotient + quotientEnfants;
-        var revenuImposableParPart = revenuAnnuel / partsFiscales;
+        var revenuImposableParPart = revenueAnnuelInferieur500k / partsFiscales;
 
         decimal impot = Simulateur.impotParPart(revenuImposableParPart);
+        
 
+        return impot * partsFiscales;
+    }
 
-        return Math.Round(impot * partsFiscales, 2);
+    public static decimal CalculerImpotsAnnuel(Situation situation)
+    {
+        decimal revenuAnnuel = revenueAnnuel(situation);
+
+        if (revenuAnnuel <= 500000)
+        {
+            return CalculImpotInferieurA500K(situation, revenuAnnuel);
+        }
+        decimal revenueSup500k = revenuAnnuel - 500000m;
+
+        decimal impotInf500k = CalculImpotInferieurA500K(situation,500000);
+
+        decimal impotSup500k = revenueSup500k * 0.48m;
+
+        return Math.Round(impotInf500k + impotSup500k, 2);
     }
 
     private static decimal revenueAnnuel(Situation situation)

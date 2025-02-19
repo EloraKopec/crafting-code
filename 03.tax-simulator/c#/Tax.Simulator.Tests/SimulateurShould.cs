@@ -1,4 +1,5 @@
 using FluentAssertions;
+using System.Security.Cryptography;
 using Xunit;
 
 namespace Tax.Simulator.Tests;
@@ -116,5 +117,24 @@ public class SimulateurShould
             .Should()
             .Be(10781579.96m);
     }
+
+    [Fact]
+    public void ImpotSuperieur500k()
+    {
+        Situation situation = new("Célibataire", 45000, 0, 0);
+        Simulateur.CalculerImpotsAnnuel(situation)
+            .Should()
+            .Be(223508.56m);
+
+    }
+    [Fact]
+    public void ImpotSuperieur500kMarie()
+    {
+        Situation situation = new("Marié/Pacsé", 25000, 30000, 2);
+        Simulateur.CalculerImpotsAnnuel(situation)
+            .Should()
+            .Be(234925.68m);
+    }
+
 }
 
