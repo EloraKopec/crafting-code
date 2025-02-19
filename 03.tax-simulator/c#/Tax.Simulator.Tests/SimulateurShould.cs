@@ -59,5 +59,15 @@ public class SimulateurShould
             .WithMessage("Situation familiale invalide.");
     } 
     
+    [Fact (DisplayName = "Les salaires doivent être positifs")]
+    public void ImpotSalaireNegatif()
+    {
+        Action action = () => 
+        Simulateur.CalculerImpotsAnnuel("Marié/Pacsé", -3000, 3000, 3);
+            action.Should()
+            .ThrowExactly<ArgumentException>()
+            .WithMessage("Les salaires doivent être positifs.");
+    }
+    
     
 }
