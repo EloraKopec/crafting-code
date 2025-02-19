@@ -15,4 +15,12 @@ public class SimulateurShould
             .Should()
             .Be(10661178.05m);
     }
+
+    [Fact]
+    public void ImpotCelibataireThrow()
+    {
+        Action act = () =>
+          Simulateur.CalculerImpotsAnnuel("Célibataire", -2000, 0, 0);
+        act.Should().ThrowExactly<ArgumentException>();
+    }
 }
