@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ahmay\\OneDrive\\Documents\\GitHub\\Tax\\crafting-code\\03.tax-simulator\\c#\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B5A3D6A2-16BB-45F2-B659-49FB390E8528}|Tax.Simulator.Tests\\Tax.Simulator.Tests.csproj|c:\\users\\ahmay\\onedrive\\documents\\github\\tax\\crafting-code\\03.tax-simulator\\c#\\tax.simulator.tests\\simulateurshould.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B5A3D6A2-16BB-45F2-B659-49FB390E8528}|Tax.Simulator.Tests\\Tax.Simulator.Tests.csproj|solutionrelative:tax.simulator.tests\\simulateurshould.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SimulateurShould.cs",
+              "DocumentMoniker": "C:\\Users\\ahmay\\OneDrive\\Documents\\GitHub\\Tax\\crafting-code\\03.tax-simulator\\c#\\Tax.Simulator.Tests\\SimulateurShould.cs",
+              "RelativeDocumentMoniker": "Tax.Simulator.Tests\\SimulateurShould.cs",
+              "ToolTip": "C:\\Users\\ahmay\\OneDrive\\Documents\\GitHub\\Tax\\crafting-code\\03.tax-simulator\\c#\\Tax.Simulator.Tests\\SimulateurShould.cs",
+              "RelativeToolTip": "Tax.Simulator.Tests\\SimulateurShould.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwCAAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-19T07:47:40.607Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
